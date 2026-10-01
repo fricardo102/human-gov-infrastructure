@@ -1,9 +1,10 @@
-output "instance_id" {
-  value       = aws_instance.state_svr.id
-  description = "ID da instância EC2 criada para o estado"
-}
-
-output "instance_public_ip" {
-  value       = aws_instance.state_svr.public_ip
-  description = "Endereço IP público da instância"
+output "state_infrastructure_outputs" {
+  value = {
+    for k, v in module.aws_humangov_infrastructure : k => {
+      instance_id         = v.instance_id
+      instance_public_ip  = v.instance_public_ip
+      s3_bucket_name      = v.s3_bucket_name
+      dynamodb_table_name = v.dynamodb_table_name
+    }
+  }
 }
